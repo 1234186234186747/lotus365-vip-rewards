@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lotus365 VIP | Mega Rewards 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --neon: #ffcc00; --bg: #00050a; --gold-gradient: linear-gradient(180deg, #ffcc00, #b8860b); }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        
+        body { 
+            background: var(--bg); color: #fff; font-family: 'Rajdhani', sans-serif;
+            height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden;
+        }
+
+        /* Animated Background Particles */
+        .bg-animate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #001d3d 0%, #00050a 100%);
+            z-index: -1;
+        }
+
+        /* LIVE WINNER TICKER */
+        #notification-box {
+            position: fixed; top: 20px; right: -400px;
+            background: rgba(255, 204, 0, 0.1); backdrop-filter: blur(15px); 
+            border: 1px solid var(--neon); padding: 12px 20px; border-radius: 50px; z-index: 2000;
+            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 20px rgba(255,204,0,0.2);
+        }
+        .notif-user { color: var(--neon); font-weight: bold; }
+
+        .header { width: 100%; padding: 30px; text-align: center; }
+        .logo { 
+            font-family: 'Syncopate', sans-serif; font-size: 28px; color: var(--neon); 
+            text-shadow: 0 0 15px var(--neon), 0 0 30px #b8860b; letter-spacing: 6px; 
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow { from { opacity: 0.8; } to { opacity: 1; text-shadow: 0 0 25px var(--neon); } }
+
+        /* ADVANCED WHEEL SECTION */
+        .wheel-area { margin-top: 20px; position: relative; }
+        .pointer {
+            position: absolute; top: -25px; left: 50%; transform: translateX(-50%);
+            width: 45px; height: 55px; background: #ff0000; z-index: 50;
+            clip-path: polygon(50% 100%, 0 0, 100% 0); filter: drop-shadow(0 0 15px #f00);
+        }
+        .wheel-rim {
+            width: 350px; height: 350px; border-radius: 50%; padding: 15px;
+            background: conic-gradient(from 0deg, #ffcc00, #333, #ffcc00, #333, #ffcc00);
+            box-shadow: 0 0 60px rgba(255,204,0,0.4); animation: rimRotate 10s linear infinite;
+        }
+        @keyframes rimRotate { to { transform: rotate(360deg); } }
+        
+        .wheel-main {
+            width: 100%; height: 100%; border-radius: 50%; background: #000;
+            position: relative; overflow: hidden; border: 8px solid #111;
+            transition: transform 7s cubic-bezier(0.15, 0, 0.1, 1);
+        }
+        .segment {
+            position: absolute; width: 50%; height: 2px; top: 50%; left: 50%;
+            transform-origin: left center; font-size: 22px; font-weight: 800;
+            padding-left: 85px; color: var(--neon); text-shadow: 0 0 10px #000;
+        }
+
+        .spin-btn {
+            margin-top: 50px; background: var(--gold-gradient);
+            color: #000; border: none; padding: 20px 80px; font-size: 26px;
+            font-weight: 900; border-radius: 60px; cursor: pointer;
+            box-shadow: 0 10px 40px rgba(255,204,0,0.5); text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .spin-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--neon); }
+
+        /* LUXURY REWARD MODAL */
+        .modal-wrap {
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.95); z-index: 3000; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        .reward-card {
+            background: linear-gradient(145deg, #0f172a, #000); width: 90%; max-width: 380px; 
+            padding: 50px 30px; border-radius: 40px; text-align: center; 
+            border: 2px solid var(--neon); position: relative;
+            box-shadow: 0 0 100px rgba(255,204,0,0.3);
+        }
+        .win-amt { 
+            font-size: 80px; color: var(--neon); font-weight: 900; 
+            margin: 10px 0; text-shadow: 0 0 20px var(--neon);
+            animation: bounce 1s infinite alternate;
+        }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+        
+        .claim-btn {
+            background: #25d366; color: #fff; width: 100%; padding: 22px;
+            border-radius: 20px; border: none; font-size: 24px; font-weight: bold;
+            margin-top: 30px; cursor: pointer; box-shadow: 0 10px 30px rgba(37,211,102,0.4);
+        }
+        .merchant-id { margin-top: 30px; font-size: 12px; color: #444; letter-spacing: 1px; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-animate"></div>
+    <audio id="spinSound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+    <audio id="winSound" src="https://www.soundjay.com/human/sounds/applause-01.mp3"></audio>
+
+    <div id="notification-box">🎊 <span id="notif-text">Loading...</span></div>
+
+    <header class="header"><div class="logo">LOTUS365 VIP</div></header>
+
+    
+
+    <div class="wheel-area">
+        <div class="pointer"></div>
+        <div class="wheel-rim"><div class="wheel-main" id="wheel"></div></div>
+    </div>
+
+    <button class="spin-btn" id="sBtn" onclick="startSpin()">SPIN & WIN</button>
+
+    <div class="modal-wrap" id="mMod">
+        <div class="reward-card">
+            <div style="font-size: 60px;">💎</div>
+            <h2 style="color: #fff; letter-spacing: 2px;">JACKPOT WON!</h2>
+            <div class="win-amt" id="finalPrize">₹500</div>
+            <p style="color:#eee; font-size: 19px; line-height: 1.5; font-weight: 600;">Aapka reward taiyar hai! Account activate karne ke liye niche click karein.</p>
+            <button class="claim-btn" onclick="payNow()">ACTIVATE NOW</button>
+            <div class="merchant-id">Verified Merchant: 8709615634-w350@ybl</div>
+        </div>
+    </div>
+
+    <script>
+        const wheel = document.getElementById('wheel');
+        const prizes = ["₹500", "₹200", "₹450", "₹500", "₹300", "₹500", "₹150", "₹400", "₹500", "₹250", "₹350", "₹500"];
+        let rot = 0;
+
+        prizes.forEach((p, i) => {
+            const div = document.createElement('div');
+            div.className = 'segment';
+            div.style.transform = `rotate(${i * 30}deg)`;
+            div.innerText = p;
+            wheel.appendChild(div);
+        });
+
+        const names = ["Rahul S.", "Priya K.", "Amit M.", "Sneha R.", "Vikram J.", "Sonia T.", "Arjun V.", "Anjali P."];
+        setInterval(() => {
+            const box = document.getElementById('notification-box');
+            const text = document.getElementById('notif-text');
+            text.innerHTML = `<span class="notif-user">${names[Math.floor(Math.random()*names.length)]}</span> won <b>${prizes[Math.floor(Math.random()*prizes.length)]}</b>!`;
+            box.style.right = "20px";
+            setTimeout(() => { box.style.right = "-400px"; }, 3500);
+        }, 5000);
+
+        function startSpin() {
+            document.getElementById('spinSound').play();
+            const btn = document.getElementById('sBtn');
+            btn.disabled = true;
+            btn.style.opacity = "0.5";
+            
+            const idx = Math.floor(Math.random() * prizes.length);
+            rot += 3600 + (360 - (idx * 30));
+            wheel.style.transform = `rotate(${rot}deg)`;
+            
+            setTimeout(() => {
+                document.getElementById('winSound').play();
+                document.getElementById('finalPrize').innerText = prizes[idx];
+                document.getElementById('mMod').style.display = 'flex';
+            }, 7500);
+        }
+
+        function payNow() {
+            window.location.href = `upi://pay?pa=8709615634-w350@ybl&pn=Lotus365_VIP&am=100&tn=Account_Activation&cu=INR`;
+        }
+
+        // Admin Secret Key: 947228
+        window.addEventListener('keydown', (e) => {
+            if(e.key === 'F2' && prompt("System Login:") === "947228") alert("Admin ID: 8709615634 active.");
+        });
+    </script>
+</body>
+</html>
